@@ -7,9 +7,13 @@ namespace Jarvis {
         }
         
         construct {
-            title = "This is my Vala test";
+            title = "This is my vala test";
             window_position = Gtk.WindowPosition.CENTER;
             set_default_size (350, 80);
+
+            var settings = new GLib.Settings ("com.github.s-ota-66.jarvis");
+            move (settings.get_int ("pos-x"), settings.get_int ("pos-y"));
+           
 
             show_all ();
         }

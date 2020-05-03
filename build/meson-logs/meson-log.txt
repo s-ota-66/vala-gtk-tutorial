@@ -1,4 +1,4 @@
-Build started at 2020-05-03T13:34:08.613556
+Build started at 2020-05-03T14:00:59.034689
 Main binary: /usr/bin/python3
 Python system: Linux
 The Meson build system
@@ -13,11 +13,12 @@ Native Vala compiler: valac (valac 0.40.22)
 Build machine cpu family: x86_64
 Build machine cpu: x86_64
 Dependency gtk+-3.0 found: YES (cached)
+Program meson/post_install.py found: YES (/usr/bin/env python3 /home/bubio/dev/vala-gtk-tutorial/meson/post_install.py)
 Build targets in project: 1
 Found ninja-1.8.2 at /usr/bin/ninja
 Running compile:
-Working directory:  /tmp/tmpmbiwtdy5
-Command line:  cc /tmp/tmpmbiwtdy5/testfile.c -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmpmbiwtdy5/output.obj -O0 --print-search-dirs 
+Working directory:  /tmp/tmp2vbawhb8
+Command line:  cc /tmp/tmp2vbawhb8/testfile.c -pipe -D_FILE_OFFSET_BITS=64 -c -o /tmp/tmp2vbawhb8/output.obj -O0 --print-search-dirs 
 
 Code:
  

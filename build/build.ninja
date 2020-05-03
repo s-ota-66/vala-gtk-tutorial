@@ -139,11 +139,11 @@ build meson-clean: CUSTOM_COMMAND PHONY
  COMMAND = ninja -t clean
  description = Cleaning.
 
-build build.ninja: REGENERATE_BUILD ../meson.build ../src/meson.build meson-private/coredata.dat
+build build.ninja: REGENERATE_BUILD ../meson.build ../src/meson.build ../data/meson.build meson-private/coredata.dat
  pool = console
 
 build reconfigure: REGENERATE_BUILD PHONY
  pool = console
 
-build ../meson.build ../src/meson.build meson-private/coredata.dat: phony 
+build ../meson.build ../src/meson.build ../data/meson.build meson-private/coredata.dat: phony 
 

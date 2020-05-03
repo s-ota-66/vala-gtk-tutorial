@@ -6,6 +6,7 @@
 #include <glib.h>
 #include <glib-object.h>
 #include <gtk/gtk.h>
+#include <gio/gio.h>
 
 
 #define JARVIS_TYPE_WINDOW (jarvis_window_get_type ())
@@ -33,6 +34,7 @@ static GParamSpec* jarvis_window_properties[JARVIS_WINDOW_NUM_PROPERTIES];
 
 typedef struct _Application Application;
 typedef struct _ApplicationClass ApplicationClass;
+#define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 
 struct _JarvisWindow {
 	GtkApplicationWindow parent_instance;
@@ -67,7 +69,7 @@ jarvis_window_construct (GType object_type,
 	self = (JarvisWindow*) g_object_new (object_type, "application", app, NULL);
 #line 3 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	return self;
-#line 71 "Window.c"
+#line 73 "Window.c"
 }
 
 
@@ -76,7 +78,7 @@ jarvis_window_new (Application* app)
 {
 #line 3 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	return jarvis_window_construct (JARVIS_TYPE_WINDOW, app);
-#line 80 "Window.c"
+#line 82 "Window.c"
 }
 
 
@@ -88,6 +90,10 @@ jarvis_window_constructor (GType type,
 	GObject * obj;
 	GObjectClass * parent_class;
 	JarvisWindow * self;
+	GSettings* settings = NULL;
+	GSettings* _tmp0_;
+	GSettings* _tmp1_;
+	GSettings* _tmp2_;
 #line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	parent_class = G_OBJECT_CLASS (jarvis_window_parent_class);
 #line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
@@ -95,16 +101,28 @@ jarvis_window_constructor (GType type,
 #line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, JARVIS_TYPE_WINDOW, JarvisWindow);
 #line 10 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	gtk_window_set_title ((GtkWindow*) self, "This is my Vala test");
+	gtk_window_set_title ((GtkWindow*) self, "This is my vala test");
 #line 11 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	g_object_set ((GtkWindow*) self, "window-position", GTK_WIN_POS_CENTER, NULL);
 #line 12 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	gtk_window_set_default_size ((GtkWindow*) self, 350, 80);
 #line 14 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp0_ = g_settings_new ("com.github.s-ota-66.jarvis");
+#line 14 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	settings = _tmp0_;
+#line 15 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp1_ = settings;
+#line 15 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp2_ = settings;
+#line 15 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	gtk_window_move ((GtkWindow*) self, g_settings_get_int (_tmp1_, "pos-x"), g_settings_get_int (_tmp2_, "pos-y"));
+#line 18 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	gtk_widget_show_all ((GtkWidget*) self);
 #line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_g_object_unref0 (settings);
+#line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	return obj;
-#line 108 "Window.c"
+#line 126 "Window.c"
 }
 
 
@@ -115,7 +133,7 @@ jarvis_window_class_init (JarvisWindowClass * klass)
 	jarvis_window_parent_class = g_type_class_peek_parent (klass);
 #line 2 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	G_OBJECT_CLASS (klass)->constructor = jarvis_window_constructor;
-#line 119 "Window.c"
+#line 137 "Window.c"
 }
 
 
