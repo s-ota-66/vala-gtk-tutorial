@@ -1,4 +1,4 @@
-namespace MyApp {
+namespace Jarvis {
     public class Window : Gtk.ApplicationWindow {
         public Window (Application app) {
             Object (
