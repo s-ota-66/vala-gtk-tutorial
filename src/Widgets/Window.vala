@@ -21,6 +21,9 @@ namespace Jarvis {
                 return before_destroy ();
             });
             
+            var headerbar = new Jarvis.HeaderBar ();
+            set_titlebar (headerbar);
+
             show_all ();
         }
 
