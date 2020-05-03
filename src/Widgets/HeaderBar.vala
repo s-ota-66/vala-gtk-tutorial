@@ -1,8 +1,6 @@
 public class Jarvis.HeaderBar : Gtk.HeaderBar {
 
     construct {
-        title = "Jarvis";
-        subtitle = "Let me help ya!";
         show_close_button = true;
 
         var add_button = new Gtk.Button.with_label ("Add");
@@ -26,7 +24,7 @@ public class Jarvis.HeaderBar : Gtk.HeaderBar {
         stack.add_titled (completed, "completed", "Completed");
 
         set_custom_title (stack_switcher);
-        
+
         pack_end (menu_button);
     }
 }
