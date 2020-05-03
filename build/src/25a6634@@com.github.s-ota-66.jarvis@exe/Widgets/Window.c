@@ -7,6 +7,7 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 #include <gio/gio.h>
+#include <gdk/gdk.h>
 
 
 #define JARVIS_TYPE_WINDOW (jarvis_window_get_type ())
@@ -24,6 +25,7 @@ enum  {
 	JARVIS_WINDOW_NUM_PROPERTIES
 };
 static GParamSpec* jarvis_window_properties[JARVIS_WINDOW_NUM_PROPERTIES];
+#define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 
 #define TYPE_APPLICATION (application_get_type ())
 #define APPLICATION(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_APPLICATION, Application))
@@ -34,11 +36,11 @@ static GParamSpec* jarvis_window_properties[JARVIS_WINDOW_NUM_PROPERTIES];
 
 typedef struct _Application Application;
 typedef struct _ApplicationClass ApplicationClass;
-#define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 
 struct _JarvisWindow {
 	GtkApplicationWindow parent_instance;
 	JarvisWindowPrivate * priv;
+	GSettings* settings;
 };
 
 struct _JarvisWindowClass {
@@ -53,9 +55,16 @@ GType application_get_type (void) G_GNUC_CONST;
 JarvisWindow* jarvis_window_new (Application* app);
 JarvisWindow* jarvis_window_construct (GType object_type,
                                        Application* app);
+gboolean jarvis_window_before_destroy (JarvisWindow* self);
 static GObject * jarvis_window_constructor (GType type,
                                      guint n_construct_properties,
                                      GObjectConstructParam * construct_properties);
+static gboolean _jarvis_window___lambda4_ (JarvisWindow* self,
+                                    GdkEventAny* e);
+static gboolean __jarvis_window___lambda4__gtk_widget_delete_event (GtkWidget* _sender,
+                                                             GdkEventAny* event,
+                                                             gpointer self);
+static void jarvis_window_finalize (GObject * obj);
 
 
 JarvisWindow*
@@ -63,22 +72,104 @@ jarvis_window_construct (GType object_type,
                          Application* app)
 {
 	JarvisWindow * self = NULL;
-#line 3 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+#line 5 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	g_return_val_if_fail (app != NULL, NULL);
-#line 4 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+#line 6 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	self = (JarvisWindow*) g_object_new (object_type, "application", app, NULL);
-#line 3 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+#line 5 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	return self;
-#line 73 "Window.c"
+#line 82 "Window.c"
 }
 
 
 JarvisWindow*
 jarvis_window_new (Application* app)
 {
-#line 3 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+#line 5 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	return jarvis_window_construct (JARVIS_TYPE_WINDOW, app);
-#line 82 "Window.c"
+#line 91 "Window.c"
+}
+
+
+gboolean
+jarvis_window_before_destroy (JarvisWindow* self)
+{
+	gboolean result = FALSE;
+	gint width = 0;
+	gint height = 0;
+	gint x = 0;
+	gint y = 0;
+	gint _tmp0_ = 0;
+	gint _tmp1_ = 0;
+	gint _tmp2_ = 0;
+	gint _tmp3_ = 0;
+	GSettings* _tmp4_;
+	GSettings* _tmp5_;
+	GSettings* _tmp6_;
+	GSettings* _tmp7_;
+#line 27 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	g_return_val_if_fail (self != NULL, FALSE);
+#line 30 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	gtk_window_get_size ((GtkWindow*) self, &_tmp0_, &_tmp1_);
+#line 30 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	width = _tmp0_;
+#line 30 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	height = _tmp1_;
+#line 31 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	gtk_window_get_position ((GtkWindow*) self, &_tmp2_, &_tmp3_);
+#line 31 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	x = _tmp2_;
+#line 31 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	y = _tmp3_;
+#line 33 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp4_ = self->settings;
+#line 33 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	g_settings_set_int (_tmp4_, "pos-x", x);
+#line 34 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp5_ = self->settings;
+#line 34 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	g_settings_set_int (_tmp5_, "pos-y", y);
+#line 35 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp6_ = self->settings;
+#line 35 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	g_settings_set_int (_tmp6_, "window-width", width);
+#line 36 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp7_ = self->settings;
+#line 36 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	g_settings_set_int (_tmp7_, "window-height", height);
+#line 38 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	result = FALSE;
+#line 38 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	return result;
+#line 145 "Window.c"
+}
+
+
+static gboolean
+_jarvis_window___lambda4_ (JarvisWindow* self,
+                           GdkEventAny* e)
+{
+	gboolean result = FALSE;
+#line 20 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	g_return_val_if_fail (e != NULL, FALSE);
+#line 21 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	result = jarvis_window_before_destroy (self);
+#line 21 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	return result;
+#line 160 "Window.c"
+}
+
+
+static gboolean
+__jarvis_window___lambda4__gtk_widget_delete_event (GtkWidget* _sender,
+                                                    GdkEventAny* event,
+                                                    gpointer self)
+{
+	gboolean result;
+	result = _jarvis_window___lambda4_ ((JarvisWindow*) self, event);
+#line 20 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	return result;
+#line 173 "Window.c"
 }
 
 
@@ -90,39 +181,48 @@ jarvis_window_constructor (GType type,
 	GObject * obj;
 	GObjectClass * parent_class;
 	JarvisWindow * self;
-	GSettings* settings = NULL;
 	GSettings* _tmp0_;
 	GSettings* _tmp1_;
 	GSettings* _tmp2_;
-#line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	parent_class = G_OBJECT_CLASS (jarvis_window_parent_class);
-#line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
-#line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	self = G_TYPE_CHECK_INSTANCE_CAST (obj, JARVIS_TYPE_WINDOW, JarvisWindow);
-#line 10 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	gtk_window_set_title ((GtkWindow*) self, "This is my vala test");
+	GSettings* _tmp3_;
+	GSettings* _tmp4_;
 #line 11 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	g_object_set ((GtkWindow*) self, "window-position", GTK_WIN_POS_CENTER, NULL);
+	parent_class = G_OBJECT_CLASS (jarvis_window_parent_class);
+#line 11 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	obj = parent_class->constructor (type, n_construct_properties, construct_properties);
+#line 11 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	self = G_TYPE_CHECK_INSTANCE_CAST (obj, JARVIS_TYPE_WINDOW, JarvisWindow);
 #line 12 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	gtk_window_set_title ((GtkWindow*) self, "This is my vala test");
+#line 13 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	g_object_set ((GtkWindow*) self, "window-position", GTK_WIN_POS_CENTER, NULL);
+#line 14 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	gtk_window_set_default_size ((GtkWindow*) self, 350, 80);
-#line 14 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+#line 16 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	_tmp0_ = g_settings_new ("com.github.s-ota-66.jarvis");
-#line 14 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	settings = _tmp0_;
-#line 15 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	_tmp1_ = settings;
-#line 15 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	_tmp2_ = settings;
-#line 15 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+#line 16 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_g_object_unref0 (self->settings);
+#line 16 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	self->settings = _tmp0_;
+#line 17 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp1_ = self->settings;
+#line 17 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp2_ = self->settings;
+#line 17 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	gtk_window_move ((GtkWindow*) self, g_settings_get_int (_tmp1_, "pos-x"), g_settings_get_int (_tmp2_, "pos-y"));
 #line 18 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp3_ = self->settings;
+#line 18 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_tmp4_ = self->settings;
+#line 18 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	gtk_window_resize ((GtkWindow*) self, g_settings_get_int (_tmp3_, "window-width"), g_settings_get_int (_tmp4_, "window-height"));
+#line 20 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	g_signal_connect_object ((GtkWidget*) self, "delete-event", (GCallback) __jarvis_window___lambda4__gtk_widget_delete_event, self, 0);
+#line 24 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	gtk_widget_show_all ((GtkWidget*) self);
-#line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
-	_g_object_unref0 (settings);
-#line 9 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+#line 11 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	return obj;
-#line 126 "Window.c"
+#line 226 "Window.c"
 }
 
 
@@ -133,13 +233,29 @@ jarvis_window_class_init (JarvisWindowClass * klass)
 	jarvis_window_parent_class = g_type_class_peek_parent (klass);
 #line 2 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
 	G_OBJECT_CLASS (klass)->constructor = jarvis_window_constructor;
-#line 137 "Window.c"
+#line 2 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	G_OBJECT_CLASS (klass)->finalize = jarvis_window_finalize;
+#line 239 "Window.c"
 }
 
 
 static void
 jarvis_window_instance_init (JarvisWindow * self)
 {
+}
+
+
+static void
+jarvis_window_finalize (GObject * obj)
+{
+	JarvisWindow * self;
+#line 2 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	self = G_TYPE_CHECK_INSTANCE_CAST (obj, JARVIS_TYPE_WINDOW, JarvisWindow);
+#line 3 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	_g_object_unref0 (self->settings);
+#line 2 "/home/bubio/dev/vala-gtk-tutorial/src/Widgets/Window.vala"
+	G_OBJECT_CLASS (jarvis_window_parent_class)->finalize (obj);
+#line 259 "Window.c"
 }
 
 
