@@ -1,0 +1,8 @@
+# ninja log v5
+0	522	1588479579	com.github.s-ota-66.jarvis@exe/Main.c	2ce143081ec839b6
+0	522	1588479579	com.github.s-ota-66.jarvis@exe/Window.c	2ce143081ec839b6
+0	522	1588479579	com.github.s-ota-66.jarvis@exe/Application.c	2ce143081ec839b6
+522	2364	1588479581	com.github.s-ota-66.jarvis@exe/meson-generated_Main.c.o	469149d48ade5286
+523	2428	1588479581	com.github.s-ota-66.jarvis@exe/meson-generated_Window.c.o	87f64d5adf7e167e
+523	2428	1588479581	com.github.s-ota-66.jarvis@exe/meson-generated_Application.c.o	8974e4e93649c1b1
+2428	2897	1588479581	com.github.s-ota-66.jarvis	76d77b00047df1f
